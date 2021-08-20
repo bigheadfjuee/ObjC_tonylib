@@ -1,0 +1,32 @@
+//
+//  tonylib.m
+//  tonylib
+//
+//  Created by tony on 2015/11/6.
+//  Copyright © 2015年 bxb. All rights reserved.
+//
+
+#import "tonylib.h"
+
+@implementation mycalc
+@synthesize delegate;
+
+- (void) setDelegate: (id) aDelegate {
+  delegate = aDelegate;
+}
+
+-(int) calc:(int)value {
+  [self.delegate oncalcEventA: 10 ext1 : 11];
+  busy = TRUE;
+  [self.delegate oncalcEventB: 20 ext1 : 21];
+  return ( value + 1);
+}
+
+@end
+
+// C Function -----------------------------------------------------------------
+int fakeLoader (int val)
+{
+  NSLog(@"fakeLoader:%d", val);
+  return val;
+}

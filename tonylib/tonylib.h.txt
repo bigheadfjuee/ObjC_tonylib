@@ -1,0 +1,51 @@
+//
+// Making Static Library for Delphi,FPC
+// ------------------------------------------------------------------------------
+// 1. File-New-Project-iOS-Framework & Library-Cocoa Touch Static Library
+// 2. Build Phases
+//    2.1. Add Link Binary With Libraries (ex. AssetsLibrary.framework)
+//    2.2. Click Add Build Phase
+//         Add Run Script like this
+//         --------------------------------------------------------
+//         Shell : /bin/sh
+//         Script:
+//         if [ $PLATFORM_NAME = "iphonesimulator" ]; then
+//           cp $BUILT_PRODUCTS_DIR/$EXECUTABLE_PATH $PROJECT_DIR/$EXECUTABLE_PATH
+//         else
+//           $DEVROOT/usr/bin/lipo \
+//              $BUILT_PRODUCTS_DIR/$EXECUTABLE_PATH $PROJECT_DIR/$EXECUTABLE_PATH \
+//              -create -output $PROJECT_DIR/$EXECUTABLE_PATH
+//         fi
+// 3. Build iPhone Simulator , iPhone Device (sequence important !!!)
+// 4. Copy mylib.a to your project path
+// 5. Use {$l mylib.a} in your pascal source
+//
+//  test.h
+#import <Foundation/Foundation.h>
+
+@protocol mycalcEvent
+- (void) oncalcEventA:(int)inx ext1:(int)extInx1;
+- (void) oncalcEventB:(int)inx ext1:(int)extInx1;
+@end
+
+@interface mycalc : NSObject {
+  BOOL busy;
+  id <mycalcEvent> __unsafe_unretained delegate;
+  
+}
+
+- (void) setDelegate:(id)aDelegate;
+- (int) calc:(int)value;
+
+@property (nonatomic, assign)id delegate;
+
+@end
+
+
+int fakeLoader(int val);
+
+
+
+
+
+
